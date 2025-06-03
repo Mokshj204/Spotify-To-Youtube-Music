@@ -1,6 +1,4 @@
----
-
-## 🎧 How to Export Spotify Playlists to CSV
+# 🎧 How to Export Spotify Playlists to CSV
 
 This section shows you how to export your Spotify playlists (including song title and artist name) into a `.csv` file compatible with the YouTube importer script.
 
@@ -39,10 +37,7 @@ This section shows you how to export your Spotify playlists (including song titl
 1. Still in your app's dashboard, click **"Edit Settings"**
 
 2. Under **Redirect URIs**, add:  
-http://127.0.0.1:8000/callback
-yaml
-Copy
-Edit
+   http://127.0.0.1:8000/callback
 
 3. Click **Save**
 
@@ -52,18 +47,15 @@ Edit
 
 Open terminal and run:
 
-```bash
 pip install spotipy
-🧾 4. Python Script to Export Spotify Playlist
 
+---
 
+## 🧾 4. Python Script to Export Spotify Playlist
 
+---
 
-
-
-
-
-# 🎵 Spotify to YouTube Music Playlist Importer
+## 🎵 Spotify to YouTube Music Playlist Importer
 
 This Python tool allows you to import songs from a CSV (exported from Spotify or elsewhere) directly into a **YouTube Music** playlist. It handles OAuth authentication, skips duplicates, and supports incremental importing by removing already-added songs from your CSV.
 
@@ -94,129 +86,110 @@ This Python tool allows you to import songs from a CSV (exported from Spotify or
 Into Your Arms,Dev Bhawsar
 Aaya Na Tu,Arjun Kanungo
 MIDDLE OF THE NIGHT,Elley Duhé
+```
 Make sure your file is saved as spotify_playlist.csv.
-
-⚙️ Step-by-Step Setup (Google Cloud Console)
-✅ 1. Go to Google Cloud Console
-🔗 https://console.cloud.google.com/
-
-🏗️ 2. Create or Select a Project
-Click the dropdown on the top left
-
-Click "New Project"
-
-Give it a name like SpotifyToYouTubeMusic
-
-Click Create
-
-📡 3. Enable YouTube Data API
-Go to:
-🔗 https://console.cloud.google.com/apis/library
-
-Search for: YouTube Data API v3
-
-Click it → Click "Enable"
-
-🛡️ 4. Configure OAuth Consent Screen
-Go to:
-🔗 https://console.cloud.google.com/apis/credentials/consent
-
-Select "External" and click "Create"
-
-Fill in:
-
-App name: SpotifyToYouTubeMusic
-
-User support email: Your email
-
-Developer contact info: Your email again
-
-Click "Save and Continue" until you reach the Test Users section
-
-👤 5. Add Test Users
-Click "Add Users"
-
-Enter the Gmail address you will use to run the script
-
-Click Save and Continue, then Back to Dashboard
-
-🔑 6. Create OAuth Credentials
-Go to:
-🔗 https://console.cloud.google.com/apis/credentials
-
-Click "Create Credentials" → Select "OAuth client ID"
-
-Application type: Desktop App
-
-Name it (e.g., "Desktop OAuth for YouTube")
-
-Click Create → then click Download JSON
-
-Save it as client_secret.json in the same folder as your script.
-
-🧪 Install Dependencies
-In your terminal or command prompt:
-
-bash
-Copy
-Edit
-pip install google-auth-oauthlib google-api-python-client
-📝 Update Your Python Script
-Make sure to paste your playlist ID from YouTube Music into the script:
-
-csharp
-Copy
-Edit
-https://music.youtube.com/playlist?list=PLxxxxxxxxxxxxxxxx
-                                      ↑ This part is your ID
-Update the variable:
-
-python
-Copy
-Edit
-TARGET_PLAYLIST_ID = 'PLxxxxxxxxxxxxxxxx'
-▶️ Run the Script
-bash
-Copy
-Edit
-python Youtube_importer.py
-It will open a browser window asking you to log in to Google and grant access.
-
-After authenticating, the script will begin importing songs.
-
-💡 Script Behavior
-Status	Behavior
-✅ Success	Song added to playlist and removed from CSV
-⏭️ Duplicate	Skipped if already exists in playlist
-❌ Not Found	Skipped and left in CSV
-🔥 API Error	Script halts and logs the issue
-
-📈 Quota Tips
-Every search + insert costs API quota.
-
-You get 10,000 units/day by default.
-
-Searching costs 100 units; adding costs 50.
-
-You can monitor usage here:
-🔗 https://console.cloud.google.com/apis/dashboard
-
-🤝 Contributing
-Feel free to fork and improve! PRs are welcome if you’d like to:
-
-Add support for other platforms
-
-Improve matching accuracy
-
-Add better error handling
-
-📄 License
-This project is licensed under the MIT License. See the LICENSE file for more details.
-
-yaml
-Copy
-Edit
 
 ---
 
-Let me know if you'd like this split into a `docs/` folder, or want GitHub Actions for auto-running it l
+## ⚙️ Step-by-Step Setup (Google Cloud Console)
+
+✅ 1. Go to Google Cloud Console  
+🔗 https://console.cloud.google.com/
+
+🏗️ 2. Create or Select a Project  
+Click the dropdown on the top left  
+Click "New Project"  
+Give it a name like SpotifyToYouTubeMusic  
+Click Create  
+
+📡 3. Enable YouTube Data API  
+Go to:  
+🔗 https://console.cloud.google.com/apis/library  
+Search for: YouTube Data API v3  
+Click it → Click "Enable"  
+
+🛡️ 4. Configure OAuth Consent Screen  
+Go to:  
+🔗 https://console.cloud.google.com/apis/credentials/consent  
+Select `"External" and click "Create"`
+
+Fill in:  
+- App name: SpotifyToYouTubeMusic  
+- User support email: Your email  
+- Developer contact info: Your email again  
+Click "Save and Continue" until you reach the Test Users section  
+
+👤 5. Add Test Users  
+Click "Add Users"  
+Enter the Gmail address you will use to run the script  
+Click Save and Continue, then Back to Dashboard  
+
+🔑 6. Create OAuth Credentials  
+Go to:  
+🔗 https://console.cloud.google.com/apis/credentials  
+Click "Create Credentials" → Select "OAuth client ID"  
+Application type: Desktop App  
+Name it (e.g., "Desktop OAuth for YouTube")  
+Click Create → then click Download JSON  
+Save it as client_secret.json in the same folder as your script.  
+
+---
+
+## 🧪 Install Dependencies
+
+In your terminal or command prompt:
+
+pip install google-auth-oauthlib google-api-python-client
+
+---
+
+## 📝 Update Your Python Script
+
+Make sure to paste your playlist ID from YouTube Music into the script:
+
+https://music.youtube.com/playlist?list=   `PLTeRxonoJibjq-IIpQZyW8zIhB_c3l4u0`  &si=y_I7wD20Y_No_q7n  
+                                           ↑ This part is your ID
+ 
+Update the variable:
+TARGET_PLAYLIST_ID = 'PLxxxxxxxxxxxxxxxx'
+
+---
+
+## ▶️ Run the Script
+
+python Youtube_importer.py  
+It will open a browser window asking you to log in to Google and grant access.  
+After authenticating, the script will begin importing songs.
+
+---
+
+## 💡 Script Behavior
+
+| Status       | Behavior                                      |
+|--------------|-----------------------------------------------|
+| ✅ Success   | Song added to playlist and removed from CSV   |
+| ⏭️ Duplicate  | Skipped if already exists in playlist         |
+| ❌ Not Found | Skipped and left in CSV                       |
+| 🔥 API Error | Script halts and logs the issue               |
+
+---
+
+## 📈 Quota Tips
+
+Every search + insert costs API quota.  
+You get 10,000 units/day by default.  
+Searching costs 100 units; adding costs 50.  
+You can monitor usage here:  
+🔗 https://console.cloud.google.com/apis/dashboard
+
+---
+
+## 🤝 Contributing
+
+Feel free to fork and improve! PRs are welcome if you’d like to:
+
+- Add support for other platforms
+- Improve matching accuracy
+- Add better error handling
+
+---
