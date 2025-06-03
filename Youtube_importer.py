@@ -14,8 +14,7 @@ CLIENT_SECRETS_FILE = r'path\to\your\client_secret.json'
 SCOPES = ['https://www.googleapis.com/auth/youtube.force-ssl']
 
 # Your target YouTube Music playlist ID
-# Extract from the URL, e.g., https://music.youtube.com/playlist?list=PLTeRxonoJibjq-IIpQZyW8zIhB_c3l4u0
-# Use the part after ?list= and before any &si= parameters
+# Extract from the URL, e.g., 'PLTeRxonoJibjq-IIpQZyW8zIhB_c3l4u0' from 'https://music.youtube.com/playlist?list=PLTeRxonoJibjq-IIpQZyW8zIhB_c3l4u0'
 TARGET_PLAYLIST_ID = 'YOUR_PLAYLIST_ID_HERE'
 
 # Authenticate and build the API client
@@ -112,6 +111,15 @@ def get_existing_video_ids(youtube, playlist_id):
         time.sleep(0.2)  # Respect API rate limits
     return video_ids
 
+# Helper function to safely print strings with potential encoding issues
+def safe_print(message):
+    """
+    Print a message, replacing unencodable characters with '?'.
+    Args:
+        message (str): The message to print.
+    """
+    print(message.encode('ascii', errors='replace').decode('ascii'))
+
 # Main logic to process CSV and update playlist
 def process_csv_and_add_to_existing_playlist(csv_file_path):
     """
@@ -128,29 +136,28 @@ def process_csv_and_add_to_existing_playlist(csv_file_path):
     # Read CSV and process songs
     with open(csv_file_path, mode='r', encoding='utf-8') as file:
         reader = csv.reader(file)
-        
         for row in reader:
             if len(row) < 2:
-                print(f"[Error] Skipped invalid row: {row}")
+                safe_print(f"[Error] Skipped invalid row: {row}")
                 writer.writerow(row)  # Keep invalid rows
                 continue
             song_title, artist = row
             try:
                 video_id = search_song(youtube, song_title, artist)
                 if not video_id:
-                    print(f"[Error] Not found: {song_title} by {artist}")
+                    safe_print(f"[Error] Not found: {song_title} by {artist}")
                     writer.writerow(row)  # Keep songs not found
                     continue
                 if video_id in existing_video_ids:
-                    print(f"[Skipped] Duplicate: {song_title} by {artist}")
+                    safe_print(f"[Skipped] Duplicate: {song_title} by {artist}")
                     writer.writerow(row)  # Keep duplicates (optional, remove to delete duplicates)
                     continue
 
                 add_song_to_playlist(youtube, TARGET_PLAYLIST_ID, video_id)
-                print(f"[Success] Added: {song_title} by {artist}")
+                safe_print(f"[Success] Added: {song_title} by {artist}")
                 existing_video_ids.add(video_id)
             except HttpError as e:
-                print(f"[Error] API Error: {e}")
+                safe_print(f"[Error] API Error: {e}")
                 writer.writerow(row)  # Keep songs in case of API error
                 continue
 
@@ -158,7 +165,7 @@ def process_csv_and_add_to_existing_playlist(csv_file_path):
     
     # Replace original CSV with updated one
     shutil.move(temp_file.name, csv_file_path)
-    print("Done updating playlist and CSV file!")
+    safe_print("Done updating playlist and CSV file!")
 
 # Your CSV file path
 # Replace with the path to your CSV file
@@ -168,7 +175,7 @@ csv_file_path = r'path\to\your\spotify_playlist.csv'
 try:
     process_csv_and_add_to_existing_playlist(csv_file_path)
 except Exception as e:
-    print(f"[Error] Fatal error: {e}")
+    safe_print(f"[Error] Fatal error: {e}")
 
 # Keep terminal open until a key is pressed
 input("Press any key to exit...")
