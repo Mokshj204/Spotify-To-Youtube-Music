@@ -124,7 +124,7 @@ def safe_print(message):
 def process_csv_and_add_to_existing_playlist(csv_file_path):
     """
     Process a CSV file containing song titles and artists, add them to a YouTube playlist,
-    and remove successfully added songs from the CSV.
+    and remove successfully added or duplicate songs from the CSV.
     Args:
         csv_file_path: Path to the CSV file with song title and artist columns.
     """
@@ -150,11 +150,12 @@ def process_csv_and_add_to_existing_playlist(csv_file_path):
                     continue
                 if video_id in existing_video_ids:
                     safe_print(f"[Skipped] Duplicate: {song_title} by {artist}")
-                    writer.writerow(row)  # Keep duplicates (optional, remove to delete duplicates)
+                    # Do not write duplicates to the CSV (removes them)
                     continue
 
                 add_song_to_playlist(youtube, TARGET_PLAYLIST_ID, video_id)
                 safe_print(f"[Success] Added: {song_title} by {artist}")
+                # Do not write successfully added songs to the CSV (removes them)
                 existing_video_ids.add(video_id)
             except HttpError as e:
                 safe_print(f"[Error] API Error: {e}")
@@ -169,13 +170,4 @@ def process_csv_and_add_to_existing_playlist(csv_file_path):
 
 # Your CSV file path
 # Replace with the path to your CSV file
-# Example: r'C:\Users\YourName\Desktop\Spotify Exporter\spotify_playlist.csv'
-csv_file_path = r'path\to\your\spotify_playlist.csv'
-
-try:
-    process_csv_and_add_to_existing_playlist(csv_file_path)
-except Exception as e:
-    safe_print(f"[Error] Fatal error: {e}")
-
-# Keep terminal open until a key is pressed
-input("Press any key to exit...")
+# Example:
