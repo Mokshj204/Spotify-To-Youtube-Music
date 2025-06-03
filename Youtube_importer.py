@@ -123,36 +123,34 @@ def process_csv_and_add_to_existing_playlist(csv_file_path):
     youtube = authenticate()
     existing_video_ids = get_existing_video_ids(youtube, TARGET_PLAYLIST_ID)
     temp_file = tempfile.NamedTemporaryFile(mode='w', delete=False, newline='', encoding='utf-8')
-    processed_songs = []
+    writer = csv.writer(temp_file)
 
     # Read CSV and process songs
     with open(csv_file_path, mode='r', encoding='utf-8') as file:
         reader = csv.reader(file)
-        writer = csv.writer(temp_file)
         
         for row in reader:
             if len(row) < 2:
-                print(f"❌ Skipped invalid row: {row}")
+                print(f"[Error] Skipped invalid row: {row}")
                 writer.writerow(row)  # Keep invalid rows
                 continue
             song_title, artist = row
             try:
                 video_id = search_song(youtube, song_title, artist)
                 if not video_id:
-                    print(f"❌ Not found: {song_title} by {artist}")
+                    print(f"[Error] Not found: {song_title} by {artist}")
                     writer.writerow(row)  # Keep songs not found
                     continue
                 if video_id in existing_video_ids:
-                    print(f"⏭️ Skipped duplicate: {song_title} by {artist}")
+                    print(f"[Skipped] Duplicate: {song_title} by {artist}")
                     writer.writerow(row)  # Keep duplicates (optional, remove to delete duplicates)
                     continue
 
                 add_song_to_playlist(youtube, TARGET_PLAYLIST_ID, video_id)
-                print(f"✅ Added: {song_title} by {artist}")
+                print(f"[Success] Added: {song_title} by {artist}")
                 existing_video_ids.add(video_id)
-                processed_songs.append((song_title, artist))  # Track successfully added songs
             except HttpError as e:
-                print(f"❌ API Error: {e}")
+                print(f"[Error] API Error: {e}")
                 writer.writerow(row)  # Keep songs in case of API error
                 continue
 
@@ -160,7 +158,7 @@ def process_csv_and_add_to_existing_playlist(csv_file_path):
     
     # Replace original CSV with updated one
     shutil.move(temp_file.name, csv_file_path)
-    print("🎉 Done updating playlist and CSV file!")
+    print("Done updating playlist and CSV file!")
 
 # Your CSV file path
 # Replace with the path to your CSV file
@@ -170,7 +168,7 @@ csv_file_path = r'path\to\your\spotify_playlist.csv'
 try:
     process_csv_and_add_to_existing_playlist(csv_file_path)
 except Exception as e:
-    print(f"❌ Fatal error: {e}")
+    print(f"[Error] Fatal error: {e}")
 
 # Keep terminal open until a key is pressed
 input("Press any key to exit...")
