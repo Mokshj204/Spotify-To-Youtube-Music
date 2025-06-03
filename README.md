@@ -4,6 +4,20 @@ This section shows you how to export your Spotify playlists (including song titl
 
 ---
 
+## 🚀 Features
+
+- ✅ Adds songs to a **specific YouTube Music playlist**
+- ⏭️ Skips songs that already exist in the playlist
+- 🗑️ Removes successfully added songs from the CSV
+- ❌ Skips songs not found on YouTube Music
+- 🔐 Uses secure OAuth 2.0 authentication
+- 📦 CSV format: `Song Title, Artist`
+
+---
+
+
+---
+
 ## 🧰 Requirements
 
 - A **Spotify account**
@@ -51,7 +65,7 @@ pip install spotipy
 
 ---
 
-## 🧾 4. Python Script to Export Spotify Playlist
+## 🧾 4. Run Python Script to Export Spotify Playlist
 
 ---
 
@@ -59,18 +73,6 @@ pip install spotipy
 
 This Python tool allows you to import songs from a CSV (exported from Spotify or elsewhere) directly into a **YouTube Music** playlist. It handles OAuth authentication, skips duplicates, and supports incremental importing by removing already-added songs from your CSV.
 
----
-
-## 🚀 Features
-
-- ✅ Adds songs to a **specific YouTube Music playlist**
-- ⏭️ Skips songs that already exist in the playlist
-- 🗑️ Removes successfully added songs from the CSV
-- ❌ Skips songs not found on YouTube Music
-- 🔐 Uses secure OAuth 2.0 authentication
-- 📦 CSV format: `Song Title, Artist`
-
----
 
 ## 🛠 Prerequisites
 
