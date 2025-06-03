@@ -98,8 +98,7 @@ Make sure your file is saved as spotify_playlist.csv.
 ✅ 1. Go to Google Cloud Console  
 🔗 https://console.cloud.google.com/
 
-🏗️ 2. Create or Select a Project  
-Click the dropdown on the top left  
+🏗️ 2. Click on Select a Project dropdown on the top left  
 Click "New Project"  
 Give it a name like SpotifyToYouTubeMusic  
 Click Create  
@@ -113,27 +112,33 @@ Click it → Click "Enable"
 🛡️ 4. Configure OAuth Consent Screen  
 Go to:  
 🔗 https://console.cloud.google.com/apis/credentials/consent  
-Select `"External" and click "Create"`
 
 Fill in:  
 - App name: SpotifyToYouTubeMusic  
 - User support email: Your email  
 - Developer contact info: Your email again  
-Click "Save and Continue" until you reach the Test Users section  
 
-👤 5. Add Test Users  
-Click "Add Users"  
-Enter the Gmail address you will use to run the script  
-Click Save and Continue, then Back to Dashboard  
+Select `"External" and click "Create"`
 
-🔑 6. Create OAuth Credentials  
+Click "Save and Continue" 
+
+🔑 5. Create OAuth Credentials  
 Go to:  
 🔗 https://console.cloud.google.com/apis/credentials  
 Click "Create Credentials" → Select "OAuth client ID"  
 Application type: Desktop App  
 Name it (e.g., "Desktop OAuth for YouTube")  
-Click Create → then click Download JSON  
-Save it as client_secret.json in the same folder as your script.  
+Click Create → then click Download JSON   
+
+👤 6. Add Test Users
+- On the left navigation bar, click **"Audience"**  
+- Scroll down to the **"Test users"** section  
+- Click **"Add Users"**  
+- Enter the Gmail address you will use to run the script  
+- Click **"Save and Continue"**, then **"Back to Dashboard"**
+
+
+
 
 ---
 
