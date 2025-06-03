@@ -1,0 +1,5 @@
+spotify_playlist.csv
+*.env
+*.key
+*_credentials.json
+*_secret*.json
